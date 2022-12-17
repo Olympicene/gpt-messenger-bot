@@ -1,2 +1,2 @@
-# gpt-messenger-bot-
+# gpt-messenger-bot
 Messenger bot for ChatGPT.

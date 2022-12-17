@@ -5,23 +5,27 @@ import EventHandler from './src/EventHandler.js';
 import FBchat from 'facebook-chat-api';
 import schedule from 'node-schedule';
 import fs from 'fs';
+import { ChatGPTAPIBrowser } from 'chatgpt'
+import dotenv from 'dotenv';
+dotenv.config();
 
-//promisify login
+////////////////////////////////////////////////////////////// Facebook Login
+// promisify FB login
 const login = promisify(FBchat);
 const appstate = JSON.parse(
   fs.readFileSync(appRoot + '/database/appstate.json', 'utf8')
 );
 
-//login
-const api = await login({ appState: appstate }).catch((err) => {
+// FB login
+const FBapi = await login({ appState: appstate }).catch((err) => {
   console.error(err);
 });
 
-//settings
-api.setOptions(config.apiOptions);
+// settings
+FBapi.setOptions(config.apiOptions);
 
-//listener
-api.listenMqtt((err, event) => {
+// listener
+FBapi.listenMqtt((err, event) => {
   if (err) return console.error(err);
 
   if (config.DEBUG) console.log(event);
@@ -29,20 +33,33 @@ api.listenMqtt((err, event) => {
   EventHandler(event);
 });
 
-//reset timeout every night
-let rule = new schedule.RecurrenceRule();
-rule.tz = config.time_zone;
-rule.hour = 0;
-rule.minute = 0;
+// reset timeout every night
+//let rule = new schedule.RecurrenceRule();
+//rule.tz = config.time_zone;
+//rule.hour = 0;
+//rule.minute = 0;
 
-schedule.scheduleJob(rule, async () => {
-  process.exit(1);
-});
+//schedule.scheduleJob(rule, async () => {
+//  process.exit(1);
+//});
 
-//helpful send function
+////////////////////////////////////////////////////////////// ChatGPT Login
+const GPTapi = new ChatGPTAPIBrowser({
+    email: process.env.OPENAI_EMAIL,
+    password: process.env.OPENAI_PASSWORD,
+    debug: false,
+    minimize: true
+})
+
+await GPTapi.init();
+
+
+////////////////////////////////////////////////////////////// Helper Functions
+
+// helpful send function
 function send(contents, threadID, replyID) {
   new Promise((resolve, reject) => {
-    api.sendMessage(
+    FBapi.sendMessage(
       contents,
       threadID,
       (err) => {
@@ -58,4 +75,4 @@ function send(contents, threadID, replyID) {
   });
 }
 
-export { send, api };
+export { send, FBapi, GPTapi };

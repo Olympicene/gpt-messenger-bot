@@ -9,6 +9,7 @@ async function GPTrespond(event) {
 
 	if (event.body.substring(0,8) == "jarvis, ") {
 		if(!Timeout.inTimeout(event.senderID)) {
+			Timeout.userTimeout(event.senderID)
 			prompt = event.body.substring(8);
 
 			try {
@@ -25,7 +26,7 @@ async function GPTrespond(event) {
 				console.error(`Could not get ChatGPT response: ${err}`);
 			}
 		} else {
-			message.body = "Sorry, it's been less than 30 seconds since you sent the last request."
+			message.body = "Sorry, it's been less than 10 seconds since you sent the last request."
 			send(message, event.threadID);
 		}
 	}

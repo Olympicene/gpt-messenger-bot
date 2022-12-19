@@ -6,7 +6,7 @@ class Timeout {
 
   static inTimeout(userID) {
     //check if userID is in timeout
-    return !(this.timeout[userID] === undefined) | this.timeout[userID];
+    return this.timeout[userID];
   }
 
   static userTimeout(userID) {

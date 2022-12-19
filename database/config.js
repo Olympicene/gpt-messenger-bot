@@ -22,6 +22,6 @@ const time_zone = 'America/Chicago';
 
 const DEBUG = false;
 
-const timeout_milliseconds = 30000; // 30 second timeout
+const timeout_milliseconds = 10000; // 30 second timeout
 
 export default {apiOptions, allowed_threads, admins, time_zone, DEBUG, timeout_milliseconds}

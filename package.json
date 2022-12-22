@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Olympicene/gpt-messenger-bot#readme",
   "dependencies": {
     "app-root-path": "^3.1.0",
-    "chatgpt": "^2.5.2",
+    "chatgpt": "^3.3.1",
     "delay": "^5.0.0",
     "dotenv": "^16.0.3",
     "dotenv-safe": "^8.2.0",

@@ -15,9 +15,11 @@ async function GPTrespond(event) {
 			try {
 	
 				//get ChatGPT response
-				message.body = await oraPromise(GPTapi.sendMessage(prompt), {
+				let res = await oraPromise(GPTapi.sendMessage(prompt), {
 					text: prompt
 				});
+
+				message.body = res.response;
 	
 				//send message
 				send(message, event.threadID, event.messageID);

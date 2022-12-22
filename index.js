@@ -51,7 +51,7 @@ const GPTapi = new ChatGPTAPIBrowser({
     minimize: true
 })
 
-await GPTapi.init();
+await GPTapi.initSession();
 
 
 ////////////////////////////////////////////////////////////// Helper Functions
